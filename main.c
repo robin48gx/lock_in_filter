@@ -46,12 +46,13 @@ double no_dc_filter ( double x0 ) {
 }
 
 
+
 // part of the lock in filter is the integral, the lovck in rectification/amplification
 // only becomes meaningfull when a large number of noise samples can cancel out each other
 #define INCREMENT_BUFFER_SIZE 2000
 double increment_buffer[INCREMENT_BUFFER_SIZE];
 
-void fill_buffer()
+void test_lock_in ()
 {
 
     int im4;
@@ -121,7 +122,7 @@ void fill_buffer()
 		f_level = 0.98 * f_level + 0.02 * level;  // first order lp
     	}
         printf(" inc %lf level %lf f_level %lf ", inc, level, f_level);
-        //printf(" inc %lf level %lf f_level %lf ff_level %lf", inc, level, f_level, ff_level);
+       
 	printf("\n");
         avg += dbuff[i];
     }
@@ -132,12 +133,7 @@ void fill_buffer()
 int main()
 {
 
-    static int64_t z_1, z_2;
-
-    fill_buffer();
-
-//    lock_in(); // now in fill_buffer if all in same loop then printf output to gnuplot possible
+    test_lock_in();
 
     return 0;
-
 }
