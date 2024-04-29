@@ -1,0 +1,48 @@
+# Lock in filter
+#
+# Uses the main.c file. This generates random numbers added to a s
+# signal and a d.c. offset.
+# A no d.c. filter is used to remove the offset and is then passed to a 
+# lock in filter. The multiplies the sin wave (cycle over four samples)
+# by 1 for the first two cycles and by -1 for the next two and repeats.
+# The data is summed and collected in an integral buffer (currently 2000 samples long)
+# The integral buffer (which in theory should cancel out noise) is summed and passed to a low pass filter.
+#
+# This does seem to find the signal even where the random niose has a magnitude above
+# ten times the signal.
+# 12APR2024 RPC
+
+
+
+set title "raw data"
+plot "dd.txt" using 2:4 t "rand + dc", "dd.txt" u 2:6 t "signal", "dd.txt" u 2:8 t "rand + signal"
+!sleep 4
+
+# look at no d.c. filter effect
+# This should remove dc offsets to protect the integral
+#
+set title " no dc filter effect"
+set xrange[0:50]
+plot  "dd.txt" u 2:10 with lp t "no dc filter", "dd.txt" u 2:6 t "signal" with lp
+!sleep 10
+# look at no d.c. filter effect
+set xrange[0:150]
+plot  "dd.txt" u 2:10 t "no dc filter" with lp, "dd.txt" u 2:6 t "signal" with lp
+!sleep 10
+
+# Look at signal against noise background
+set title "signal compared to nodc filtered sig+rand"
+unset xrange
+plot  "dd.txt" u 2:10 t "sig noise nodc", "dd.txt" u 2:6 t "signal"
+!sleep 4
+
+# zoom in and see how well integral of locking tracks the amplitude of the signal
+set title "look at how integral tracks the signal at signal magnitudes"
+set yrange [-20:20]
+plot "dd.txt" u 2:10 t "sig noise nodc", "dd.txt" u 2:6 t "signal", "dd.txt" u 2:8 t "signal + noise", "dd.txt" u 2:14 t  "level"
+
+# show lp filter of integral on top
+set title "look at how integral tracks the signal at signal magnitudes with lp filter"
+!sleep 4
+plot "dd.txt" u 2:10 t "sig noise nodc", "dd.txt" u 2:6 t "signal", "dd.txt" u 2:8 t "signal + noise" , "dd.txt" u 2:14  t "level", "dd.txt" u 2:16 t  "f_level"
+!sleep 40

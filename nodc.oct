@@ -1,0 +1,12 @@
+
+# octave script to show the frequency response of a simple two pole d.c. blocking filter
+#
+
+# essentially a notch filter at d.c.
+#   (Z-1)^2  / (Z-0.9)^2
+
+z=[1,-2,1]
+p=[1,-1.8,0.81]
+[h,w] = freqz(z,p)
+plot(abs(h))
+pause
