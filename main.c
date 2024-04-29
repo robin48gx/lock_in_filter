@@ -24,7 +24,7 @@ double dbuff[BUFF_SIZE], level, f_level, ff_level;
 
 //------------------------------------------------------------------------------
 // No d.c. double zero placed at d.c (Z-1)
-// pole placed at (Z-0.9)
+// double pole placed at (Z-0.9)
 //
 // This is a kind of low pass filter aimed at removing d.c.
 // It gives a slight gain (about 1.2) to frequecies not near d.c.
@@ -46,9 +46,10 @@ double no_dc_filter ( double x0 ) {
 }
 
 
-
+//-------*******************************************************----------------------------
 // part of the lock in filter is the integral, the lovck in rectification/amplification
-// only becomes meaningfull when a large number of noise samples can cancel out each other
+// only becomes meaningful when a large number of noise samples can cancel out each other
+//-------*******************************************************----------------------------
 #define INCREMENT_BUFFER_SIZE 2000
 double increment_buffer[INCREMENT_BUFFER_SIZE];
 
